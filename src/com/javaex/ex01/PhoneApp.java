@@ -23,7 +23,7 @@ public class PhoneApp {
 		System.out.println("*************************");
 		System.out.println("*     전화번호 관리 프로그램         *");
 		System.out.println("*************************");
-		
+
 		// 현재 PhonDB에있는값을 Array리스트에 저장하기
 		while (true) {
 			String str = br.readLine();
@@ -38,7 +38,7 @@ public class PhoneApp {
 			Person person = new Person(name, hp, company);
 			pList.add(person);
 		}
-		
+
 		boolean exit = true;
 		while (exit) {
 
@@ -56,6 +56,7 @@ public class PhoneApp {
 					System.out.print(i + 1 + ". ");
 					pList.get(i).draw();
 				}
+
 				break;
 			// 등록하기
 			case 2:
@@ -69,9 +70,9 @@ public class PhoneApp {
 				String company = sc.next();
 				Person person = new Person(name, hp, company);
 				pList.add(person);
-				
-			
+
 				System.out.println("[등록되었습니다.]");
+				saveInfo(pList);
 				break;
 			// 삭제하기
 			case 3:
@@ -80,6 +81,7 @@ public class PhoneApp {
 				try {
 					pList.remove(num2 - 1);
 					System.out.println("[삭제되었습니다.]");
+					saveInfo(pList);
 				} catch (IndexOutOfBoundsException e) {
 					System.out.println("[번호를 잘못 입력하였습니다.]");
 				}
@@ -97,15 +99,7 @@ public class PhoneApp {
 				break;
 			// 종료하기
 			case 5:
-				Writer or = new FileWriter("./phoneDB.txt");
-				BufferedWriter bo = new BufferedWriter(or);
 
-				for (int i = 0; i < pList.size(); i++) {
-					bo.write(pList.get(i).getName() + "," + pList.get(i).getHp() + "," + pList.get(i).getCompany());
-					bo.newLine();
-				}
-				
-				bo.close();
 				exit = false;
 				System.out.println("*************************");
 				System.out.println("*        감사합니다.       *");
@@ -118,8 +112,21 @@ public class PhoneApp {
 			}// switch
 
 		} // while
-		
+
 		br.close();
 		sc.close();
+
+	}
+   
+	public static void saveInfo(List<Person> pList) throws IOException {
+		Writer or = new FileWriter("./phoneDB.txt");
+		BufferedWriter bo = new BufferedWriter(or);
+
+		for (int i = 0; i < pList.size(); i++) {
+			bo.write(pList.get(i).getName() + "," + pList.get(i).getHp() + "," + pList.get(i).getCompany());
+			bo.newLine();
+		}
+		bo.close();
+
 	}
 }
